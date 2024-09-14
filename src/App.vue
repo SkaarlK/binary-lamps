@@ -2,7 +2,7 @@
   <div id="app">
     <h1>Binary Representation of {{ decimalNumber }}</h1>
     <div class="lamps">
-      <Lamp v-for="(lamp, index) in lamps" :key="index" :isOn="lamp.isOn" :label="lamp.label" />
+      <Lamp v-for="(lamp, index) in lamps" :key="index" :isOn="lamp.isOn" :label="lamp.label" @toggle="toggleLamp(index)" />
     </div>
     <input type="number" v-model.number="decimalNumber" @input="updateLamps" />
   </div>
@@ -29,27 +29,20 @@ export default defineComponent({
       }));
     };
 
+    const toggleLamp = (index: number) => {
+      lamps.value[index].isOn = !lamps.value[index].isOn;
+      const binaryString = lamps.value.map(lamp => (lamp.isOn ? '1' : '0')).join('');
+      decimalNumber.value = parseInt(binaryString, 2);
+    };
+
     updateLamps();
 
     return {
       decimalNumber,
       lamps,
       updateLamps,
+      toggleLamp,
     };
   },
 });
 </script>
-
-<style>
-#app {
-  text-align: center;
-}
-.lamps {
-  display: flex;
-  justify-content: center;
-  margin: 20px 0;
-}
-input {
-  margin-top: 20px;
-}
-</style>

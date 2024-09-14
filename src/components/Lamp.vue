@@ -1,5 +1,5 @@
 <template>
-    <div class="lamp-container">
+    <div class="lamp-container" @click="toggle">
       <div :class="['lamp', { on: isOn }]"></div>
       <span class="label">{{ label }}</span>
     </div>
@@ -20,29 +20,32 @@
         required: true,
       },
     },
+    emits: ['toggle'],
+    methods: {
+      toggle() {
+        this.$emit('toggle');
+      },
+    },
   });
   </script>
   
   <style scoped>
   .lamp-container {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    margin: 5px;
+    cursor: pointer;
   }
+  
   .lamp {
-    width: 50px;
-    height: 50px;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
     background-color: grey;
     border-radius: 50%;
-    transition: background-color 0.3s;
   }
+  
   .lamp.on {
     background-color: yellow;
-  }
-  .label {
-    margin-top: 5px;
-    font-size: 14px;
   }
   </style>
   
